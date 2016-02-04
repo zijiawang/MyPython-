@@ -1,17 +1,33 @@
-import random #for the random entries in the matrix
-import numpy as np 
-import matplotlib
+import numpy as np
 import matplotlib.pyplot as plt
-import matplotlib.mlab as mlab
-from numpy import linalg as LA# Linear Algebra package
-matrix= np.random.rand(100,100) #Random 100x100 matrix
-matrix_transpose= matrix.transpose()# Transpose is an in-built function
-sym_matrix= np.dot(matrix, matrix_transpose)# matrix products are built in.
-w,v= LA.eigh(sym_matrix) #w represents the eigenvalues while v is an array of the eigen vectors in the order in which they appear in w
-print("Largest eigenvalue:", max(w))
-print("Smallest eigenvalue:", min(w))
-plt.hist(w,bins=1000) # histogram with 1000 bins
-plt.xlim(-10,40)  # eigenvalues between -10 and 100
-plt.xlabel('Eigenvalues')
-plt.ylabel('Frequency')
+from sympy.solvers import solve
+from sympy import Symbol
+
+def f1(x):
+    return x**2
+def f2(x):
+    return 0.5*x+2.0
+
+x = Symbol('x')
+x1,x2 =  solve(f1(x)-f2(x))
+
+y1 = f1(x1)
+y2 = f1(x2)
+
+plt.plot(x1,f1(x1),'ro',markersize=10)
+plt.plot(x2,f1(x2),'ro',markersize=5)
+
+plt.fill([x1,0,x2],[y1,0,y2],'green',alpha=0.6)
+
+xr = np.linspace(-8,8,50)
+y1r = f1(xr)
+y2r = f2(xr)
+
+plt.plot(xr,y1r,'k')
+plt.plot(xr,y2r,'k')
+
+
+plt.xlim(-5,5)
+plt.ylim(0,10)
+
 plt.show()
